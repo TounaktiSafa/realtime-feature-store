@@ -1,0 +1,12 @@
+__pycache__/
+.venv/
+*.parquet
+mlruns/
+.env
+
+# Runtime / streaming checkpoints
+data/checkpoints/
+logs/
+.venv-feast/
+__pycache__/
+*.pyc

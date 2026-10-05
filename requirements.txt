@@ -1,0 +1,5 @@
+confluent-kafka==2.5.3
+pyspark==3.5.3
+pandas==2.2.3
+pyarrow==17.0.0
+numpy==1.26.4
