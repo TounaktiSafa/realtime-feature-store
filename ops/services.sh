@@ -2,13 +2,13 @@
 # Starts / stops / checks Feast, Spark and the API in the BACKGROUND, so no terminal
 # window can kill them by accident (Ctrl+C, closing the window, typing in the wrong one).
 #
-#   bash services.sh start     start whatever is not already running
-#   bash services.sh status    show what is running
-#   bash services.sh stop      stop all three
-#   bash services.sh logs      follow the three log files (Ctrl+C only stops the viewing)
+#   bash ops/services.sh start     start whatever is not already running
+#   bash ops/services.sh status    show what is running
+#   bash ops/services.sh stop      stop all three
+#   bash ops/services.sh logs      follow the three log files (Ctrl+C only stops the viewing)
 #
 # Run from ~/login-events. Works whether or not a venv is active.
-cd "$(dirname "$0")" || exit 1
+cd "$(dirname "$0")/.." || exit 1
 ROOT="$PWD"
 VENV="$ROOT/.venv-feast"
 mkdir -p logs
@@ -37,8 +37,8 @@ case "$1" in
     start_one spark env PATH="$CLEAN_PATH" PYSPARK_PYTHON=/usr/bin/python3 PYTHONWARNINGS=ignore \
       /usr/bin/python3 spark/features_job.py --mode live --push-url http://localhost:6566/push
     echo "API:"
-    start_one api "$VENV/bin/python" -m uvicorn api:app --port 8000
-    echo "Wait ~20 s for the API to load the model, then run:  bash preflight.sh"
+    start_one api "$VENV/bin/python" -m uvicorn serving.api:app --port 8000
+    echo "Wait ~20 s for the API to load the model, then run:  bash ops/preflight.sh"
     ;;
   status)
     for n in feast spark api; do running "$n" && echo "  running  $n" || echo "  STOPPED  $n  (see logs/$n.log)"; done ;;
@@ -49,8 +49,8 @@ case "$1" in
       fi
       rm -f "logs/$n.pid"
     done
-    pkill -f "[f]eatures_job.py" 2>/dev/null; pkill -f "[f]east serve" 2>/dev/null; pkill -f "[u]vicorn api:app" 2>/dev/null
+    pkill -f "[f]eatures_job.py" 2>/dev/null; pkill -f "[f]east serve" 2>/dev/null; pkill -f "[u]vicorn serving.api:app" 2>/dev/null
     ;;
   logs) tail -n 5 -F logs/feast.log logs/spark.log logs/api.log ;;
-  *) echo "usage: bash services.sh start|status|stop|logs"; exit 1 ;;
+  *) echo "usage: bash ops/services.sh start|status|stop|logs"; exit 1 ;;
 esac

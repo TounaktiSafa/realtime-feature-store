@@ -1,6 +1,6 @@
 """What events does the pipeline actually hold? Compares the replayed history (offline store)
 with the training set, and shows how busy the last days/hours were.
-Run from ~/login-events (venv active):   python check_history.py
+Run from ~/login-events (venv active):   python -m diagnostics.check_history
 """
 import pandas as pd
 

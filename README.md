@@ -11,16 +11,16 @@ generator -> Kafka -> Spark Structured Streaming --+--> Parquet      (offline st
                                                    +--> Feast push -> Redis   (online store: latest state)
 
 training:    Feast point-in-time join -> XGBoost -> MLflow registry (@champion alias)
-serving:     FastAPI /score -> Redis -> signals.py -> champion model -> score
+serving:     FastAPI /score -> Redis -> common/signals.py -> champion model -> score
 monitoring:  serving log -> Evidently -> Prometheus -> Grafana
 ```
 
 ## Key design decisions
 
 - **No leakage, with a test that proves it.** Each login's features are looked up 1 µs *before* the login. `pytest` rebuilds 1,000 logins' features from only the raw events that came earlier and requires an exact match. Mutation-tested: a deliberately leaky training set fails 2 of 3 tests.
-- **Leakage changes the numbers.** `python leakage_demo.py` trains the same model with three lookup strategies:
+- **Leakage changes the numbers.** `python -m diagnostics.leakage_demo` trains the same model with three lookup strategies:
   `<paste the 3 output lines of leakage_demo.py here>`
-- **One feature function for training and serving.** `signals.py` is shared, so the model never sees different logic in production.
+- **One feature function for training and serving.** `common/signals.py` is shared, so the model never sees different logic in production.
 - **No silently dropped training rows.** Feast's file offline store drops rows whose entity has no earlier history. The builder looks up each entity separately, left-merges, and asserts row counts.
 - **Time-based split.** Train on the past, tune the alert threshold on a validation slice, report on the final slice.
 - **Model registry.** MLflow tracks runs, parameters, metrics and the exact feature code. The API loads whichever model is `@champion`.
@@ -47,6 +47,25 @@ The fraud patterns are synthetic and written by me, so these numbers show the pi
 - **Future-dated features fail silently.** A malformed `date -d '7 days 2 hours ago'` started the backfill a week in the *future*. Redis ignores writes older than the stored value, so every live login was dropped and `secs_since_user_last` came out at about −1.19M s for every request, flooding the model with false alarms. `check_future.py` now fails if any stored timestamp is later than the current time, and `preflight.sh` runs it.
 - **Default drift tests are noisy** on small windows of count features. Treat drift alerts as an early warning, not proof the model broke. The alert rate stayed near 0.1% while inputs drifted.
 
+## Repository layout
+
+```
+common/        signals.py: the one feature function shared by training and serving
+serving/       api.py: FastAPI /score service (Redis -> signals -> champion model)
+training/      build_training_set.py (point-in-time join), train.py (XGBoost + MLflow)
+monitoring/    drift_job.py (Evidently -> Prometheus), build_dashboard.py, prometheus.yml, grafana/
+diagnostics/   check_future.py, check_history.py, compare_distributions.py, null_drift_test.py,
+               leakage_demo.py, demo_score.py
+generator/     synthetic login events -> Kafka
+spark/         features_job.py: Kafka -> Parquet + Feast push -> Redis
+feature_repo/  Feast entity and feature view definitions
+ops/           services.sh, preflight.sh, check_monitoring.sh, demo.sh
+tests/         leakage tests
+docs/          screenshots
+```
+
+Run every command from the repository root. Python scripts in packages run as modules (`python -m training.train`).
+
 ## Run it
 
 Requires Docker, Python 3.10 and Java 17 (Spark), plus two virtualenvs (Spark and Feast need different numpy versions).
@@ -57,14 +76,14 @@ python generator/generate.py --backfill 200000 --start "$(date -u -d '7 days ago
 
 (cd feature_repo && feast apply && feast serve -p 6566)                                  # terminal 1
 python spark/features_job.py --mode live --fresh --push-url http://localhost:6566/push   # terminal 2
-python build_training_set.py && pytest -q && python train.py                             # once Redis is filled
-uvicorn api:app --port 8000                                                              # terminal 3
-python drift_job.py                                                                      # terminal 4
+python -m training.build_training_set && pytest -q && python -m training.train                             # once Redis is filled
+uvicorn serving.api:app --port 8000                                                              # terminal 3
+python -m monitoring.drift_job                                                                      # terminal 4
 python generator/generate.py --drift-after 300 --score-url http://localhost:8000/score   # terminal 5
 ```
 
 Grafana runs at <http://localhost:3000>.
 
-**Health checks:** `./preflight.sh` (services and timestamp sanity) and `./check_monitoring.sh`.
+**Health checks:** `./ops/preflight.sh` (services and timestamp sanity) and `./ops/check_monitoring.sh`.
 
-**After a restart:** `bash services.sh start|status|stop|logs` runs Feast, Spark and the API in the background without needing separate terminals.
+**After a restart:** `bash ops/services.sh start|status|stop|logs` runs Feast, Spark and the API in the background without needing separate terminals.

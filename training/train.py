@@ -9,7 +9,7 @@ import pandas as pd
 import xgboost as xgb
 from sklearn.metrics import average_precision_score, precision_recall_curve, roc_auc_score
 
-from signals import MODEL_FEATURES
+from common.signals import MODEL_FEATURES
 
 
 def split_by_time(df):
@@ -58,7 +58,7 @@ def main():
         mlflow.log_param("features", ",".join(MODEL_FEATURES))
         mlflow.log_param("training_rows", len(df))
         mlflow.log_metrics(metrics)
-        mlflow.log_artifact("signals.py")                   # exact feature logic used
+        mlflow.log_artifact("common/signals.py")                   # exact feature logic used
         mlflow.log_artifact("feature_repo/features.py")     # exact Feast definitions used
         info = mlflow.xgboost.log_model(model, name="model", registered_model_name="login_fraud")
 

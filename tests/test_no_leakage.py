@@ -10,13 +10,13 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from signals import MODEL_FEATURES, NEVER_SEEN
+from common.signals import MODEL_FEATURES, NEVER_SEEN
 
 try:
     TS = pd.read_parquet("data/training_set.parquet")
     EV = pd.read_parquet("data/offline/login_events")
 except FileNotFoundError:
-    pytest.skip("run `python build_training_set.py` first", allow_module_level=True)
+    pytest.skip("run `python -m training.build_training_set` first", allow_module_level=True)
 
 EV = EV.assign(t=EV.event_time.map(lambda x: x.timestamp())).sort_values("t").reset_index(drop=True)
 BY_USER = {k: g for k, g in EV.groupby("user_id")}

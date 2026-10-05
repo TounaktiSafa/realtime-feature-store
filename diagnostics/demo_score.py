@@ -1,4 +1,4 @@
-"""Score two hand-picked logins against the running API (uvicorn api:app --port 8000).
+"""Score two hand-picked logins against the running API (uvicorn serving.api:app --port 8000).
 
 Redis holds each user's/IP's LATEST state, so we replay only from events that are still the
 latest for both their user and their IP - otherwise "now" would sit before the stored state.

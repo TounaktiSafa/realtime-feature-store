@@ -2,8 +2,8 @@
 and exposes the results to Prometheus (Grafana reads Prometheus).
 
 Run from the project root, in .venv-feast:
-    python drift_job.py                      # loop forever, metrics on :8001/metrics
-    python drift_job.py --once               # one check, write the HTML report, exit (good for testing)
+    python -m monitoring.drift_job                      # loop forever, metrics on :8001/metrics
+    python -m monitoring.drift_job --once               # one check, write the HTML report, exit (good for testing)
 
 Needs: pip install evidently==0.7.23 prometheus_client
 """
@@ -18,7 +18,7 @@ from evidently import DataDefinition, Dataset, Report
 from evidently.presets import DataDriftPreset
 from prometheus_client import Gauge, start_http_server
 
-from signals import MODEL_FEATURES
+from common.signals import MODEL_FEATURES
 
 TRAIN = Path("data/training_set.parquet")
 SERVING_LOG = Path("data/serving_log/requests.jsonl")

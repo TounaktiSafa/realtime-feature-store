@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Finds the first broken hop between drift_job.py and the Grafana panels.   Usage: ./check_monitoring.sh
+# Finds the first broken hop between drift_job.py and the Grafana panels.   Usage: ./ops/check_monitoring.sh
 step() { printf "\n[%s] %s\n" "$1" "$2"; }
 
-step 1 "drift exporter on :8001 (python drift_job.py must be running)"
+step 1 "drift exporter on :8001 (python -m monitoring.drift_job must be running)"
 out=$(curl -s -m 3 localhost:8001/metrics | grep -E "^fraud_(drift_share|drift_window_rows|flagged_rate) ")
-[ -n "$out" ] && echo "$out" | sed 's/^/   /' || echo "   FAIL: nothing on :8001  ->  source .venv-feast/bin/activate && python drift_job.py"
+[ -n "$out" ] && echo "$out" | sed 's/^/   /' || echo "   FAIL: nothing on :8001  ->  source .venv-feast/bin/activate && python -m monitoring.drift_job"
 
 step 2 "Prometheus scrape target (:9090)"
 curl -s -m 3 localhost:9090/api/v1/targets | python3 -c "

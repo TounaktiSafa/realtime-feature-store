@@ -8,7 +8,7 @@ import time
 import pandas as pd
 from feast import FeatureStore
 
-from signals import IP_REFS, MODEL_FEATURES, USER_REFS, build_signals
+from common.signals import IP_REFS, MODEL_FEATURES, USER_REFS, build_signals
 
 
 JUST_BEFORE = pd.Timedelta(microseconds=-1)

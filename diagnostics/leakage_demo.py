@@ -4,8 +4,8 @@ Only the first row is legitimate. The others show how leakage breaks offline met
 """
 import pandas as pd
 
-from build_training_set import build
-from train import fit_and_eval
+from training.build_training_set import build
+from training.train import fit_and_eval
 
 CASES = {
     "correct: features from just BEFORE the login": pd.Timedelta(microseconds=-1),

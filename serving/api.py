@@ -1,6 +1,6 @@
-"""Real-time login scoring service.   Run:  uvicorn api:app --port 8000
+"""Real-time login scoring service.   Run:  uvicorn serving.api:app --port 8000
 
-POST /score  ->  Redis (Feast online store) -> signals.py -> @champion XGBoost -> score
+POST /score  ->  Redis (Feast online store) -> common/signals.py -> @champion XGBoost -> score
 """
 import json
 import threading
@@ -15,7 +15,7 @@ from fastapi import FastAPI
 from feast import FeatureStore
 from pydantic import BaseModel
 
-from signals import IP_REFS, MODEL_FEATURES, USER_REFS, build_signals
+from common.signals import IP_REFS, MODEL_FEATURES, USER_REFS, build_signals
 
 MODEL_NAME, ALIAS = "login_fraud", "champion"
 SERVING_LOG = Path("data/serving_log/requests.jsonl")   # what Evidently will read for drift

@@ -1,7 +1,7 @@
 """Calibration: how often does the drift check cry wolf on data that is NOT drifted?
 Takes random NORMAL (non-fraud) rows from the training set as fake "live" windows and runs the
 same Evidently check as drift_job.py. Any feature flagged here is a false alarm by construction.
-Run from ~/login-events (venv active):   python null_drift_test.py        (about 1-2 minutes)
+Run from ~/login-events (venv active):   python -m diagnostics.null_drift_test        (about 1-2 minutes)
 """
 import warnings
 
@@ -9,7 +9,7 @@ import pandas as pd
 from evidently import DataDefinition, Dataset, Report
 from evidently.presets import DataDriftPreset
 
-from signals import MODEL_FEATURES
+from common.signals import MODEL_FEATURES
 
 warnings.filterwarnings("ignore")
 CATEGORICAL = ["is_new_device", "country_changed"]

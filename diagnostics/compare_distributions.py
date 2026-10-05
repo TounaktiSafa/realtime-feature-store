@@ -1,6 +1,6 @@
 """Why does the drift monitor flag features on normal traffic?
 Compares the live window with the training set, feature by feature, and prints plain numbers.
-Run from ~/login-events (venv active):   python compare_distributions.py
+Run from ~/login-events (venv active):   python -m diagnostics.compare_distributions
 """
 import json
 from collections import deque
@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from signals import MODEL_FEATURES
+from common.signals import MODEL_FEATURES
 
 TRAIN = Path("data/training_set.parquet")
 LOG = Path("data/serving_log/requests.jsonl")

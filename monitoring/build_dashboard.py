@@ -1,4 +1,4 @@
-"""Writes the Grafana dashboard JSON.  Run:  python build_dashboard.py"""
+"""Writes the Grafana dashboard JSON.  Run:  python -m monitoring.build_dashboard"""
 import json
 
 DS = {"type": "prometheus", "uid": "prometheus"}
