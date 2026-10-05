@@ -11,9 +11,9 @@ topics:
 		--topic login_events --partitions 3 --replication-factor 1 \
 		--bootstrap-server localhost:9092
 
-# Live stream: ~20 logins/sec, drift kicks in after 5000 events
+# Live stream: ~0.33 logins/sec (same pace as the training history), drift after 300 events
 live:
-	python generator/generate.py --rate 20 --drift-after 5000
+	python generator/generate.py --rate 0.33 --drift-after 300
 
 # Fast history with simulated past timestamps (training data)
 backfill:

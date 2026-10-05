@@ -1,89 +1,0 @@
-
-7
-
-ip"ipJlogin_fraud
-Ù…ÖÈÊÌºƒÉÖÀˆÃÀ
->
-
-user"user_idJlogin_fraud
-Ù…ÖĞßÒºƒÉÖĞ»ÌÀ
-B
-"
-__dummy"
-__dummy_idJlogin_fraud
-Ù…ÖøÕÃºƒÉÖ¸·ĞÀ1"$959e97f1-fc3a-4027-aa1b-5dfbffb7fc38*ƒÉÖà¯ŞÄ2Ê
-ƒ
-ip_featureslogin_fraudip"
-attempts_5m"
-	failed_5m"
-distinct_users_5m"
-ip_last_event_ts2€š:!
-last_event_tsip_last_event_ts
-event_timeZ../data/offline/ip_features¢../data/offline/ip_features’ƒÉÖà‰§£"ƒÉÖğ±³¿@Jë	!
-last_event_tsip_last_event_ts
-event_time¢ip_pushÒ!
-last_event_tsip_last_event_ts
-event_timeZ../data/offline/ip_features¢../data/offline/ip_features’ƒÉÖà‰§£"ƒÉÖğ±³¿’ƒÉÖ˜†°£"ƒÉÖğç¡¿b
-ip’latestB
-Ù…ÖÀø†ºƒÉÖ€ÊÂÀ
-€ŒÒ€®†Ö
-€ŒÒ€®†Ö02“
-Ì
-user_featureslogin_frauduser"
-failed_logins_5m"
-	logins_1h"
-distinct_countries_1h"
-last_country"
-known_devices"
-user_last_event_ts2€š:“#
-last_event_tsuser_last_event_ts
-event_timeZ../data/offline/user_features¢../data/offline/user_features’ƒÉÖˆèŸ£"ƒÉÖ°Ò½¿@Jõ	#
-last_event_tsuser_last_event_ts
-event_time¢	user_pushÒ“#
-last_event_tsuser_last_event_ts
-event_timeZ../data/offline/user_features¢../data/offline/user_features’ƒÉÖˆèŸ£"ƒÉÖ°Ò½¿’ƒÉÖĞ©¬£"ƒÉÖÏŠ¿b
-user_id’latestB
-Ù…Ö°Á¨ºƒÉÖ€ø‰À
-€ŒÒ€®†Ö
-€ŒÒ€®†Ö0bÕ#
-last_event_tsuser_last_event_ts
-event_timeZ../data/offline/user_featuresŠ1feast.infra.offline_stores.file_source.FileSource¢../data/offline/user_featuresªlogin_fraud’Ù…Ö˜®Æ³"Ù…ÖÈáñ¹bÏ!
-last_event_tsip_last_event_ts
-event_timeZ../data/offline/ip_featuresŠ1feast.infra.offline_stores.file_source.FileSource¢../data/offline/ip_featuresªlogin_fraud’Ù…ÖàøÏ³"Ù…Ö¸éş¹b¢	#
-last_event_tsuser_last_event_ts
-event_timeŠfeast.data_source.PushSource¢	user_pushªlogin_fraudÒ“#
-last_event_tsuser_last_event_ts
-event_timeZ../data/offline/user_features¢../data/offline/user_features’êÑˆÖ¸´„ª"êÑˆÖ¸´„ª’êÑˆÖàÙª"êÑˆÖÀº€¯b˜	!
-last_event_tsip_last_event_ts
-event_timeŠfeast.data_source.PushSource¢ip_pushªlogin_fraudÒ!
-last_event_tsip_last_event_ts
-event_timeZ../data/offline/ip_features¢../data/offline/ip_features’êÑˆÖĞšŠª"êÑˆÖĞšŠª’êÑˆÖ°İ“ª"êÑˆÖ€áˆ¯Š-
-
-login_fraud
-Ù…Ö¸¤§´ƒÉÖØ–é£’Ù
-É
-ip_featureslogin_fraud"feature_view*ê
-É
-ip_featureslogin_fraudip"
-attempts_5m"
-	failed_5m"
-distinct_users_5m"
-ip_last_event_ts2€š:Á!
-last_event_tsip_last_event_ts
-event_timeZ../data/offline/ip_featuresŠ1feast.infra.offline_stores.file_source.FileSource¢../data/offline/ip_features’Ù…ÖàøÏ³"Ù…Ö¸éş¹@b
-ip’latest
-Ù…ÖÀø†ºÙ…ÖÀø†º2Ù…ÖÀ˜¦ºB$85cde171-c536-4e12-85a4-c21d9ed5938a
-Š
-user_featureslogin_fraud"feature_view*©
-ˆ
-user_featureslogin_frauduser"
-failed_logins_5m"
-	logins_1h"
-distinct_countries_1h"
-last_country"
-known_devices"
-user_last_event_ts2€š:Ç#
-last_event_tsuser_last_event_ts
-event_timeZ../data/offline/user_featuresŠ1feast.infra.offline_stores.file_source.FileSource¢../data/offline/user_features’Ù…Ö˜®Æ³"Ù…ÖÈáñ¹@b
-user_id’latest
-Ù…Ö°Á¨ºÙ…Ö°Á¨º2Ù…Ö°óÁºB$626989b5-bda0-47fe-b982-f364f85e6ae4
